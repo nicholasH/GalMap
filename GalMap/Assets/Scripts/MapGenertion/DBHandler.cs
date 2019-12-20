@@ -119,6 +119,20 @@ public class DBHandler
         return _connection.Table<Planet>();
     }
 
+    public IEnumerable<chain> GetChains()
+    {
+        return _connection.Table<chain>();
+    }
+
+    public Planet getPlanetByID(int id)
+    {
+        return _connection.Table<Planet>().Where(x => x.id == id).FirstOrDefault();
+    }
+
+    public IEnumerable<chain> getLinkedPlanets(int id)
+    {
+        return _connection.Table<chain>().Where(x => x.id == id);
+    }
 
 
 

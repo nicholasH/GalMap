@@ -28,25 +28,33 @@ public class MapBuilder : MonoBehaviour
         
     }
 
-    //add to sceen
-
+    //add to screen
     private void addToScene()
     {
-        var ds = new DBHandler();
+        var db = new DBHandler();
+        var planets = db.getPlanets();
 
-        var planets = ds.getPlanets();
-
-        foreach( var planet in planets)
+        foreach ( var planet in planets)
         {
-            Instantiate(planetPrefab, new Vector3(planet.x, planet.y, 0), Quaternion.identity);
+            GameObject planetObj = Instantiate(planetPrefab);
+            planetPrefab.name = "planet: " + planet.id;
+
+            var chains =  db.getLinkedPlanets(planet.id);
+
+            LineRenderer line = planetObj.GetComponent<LineRenderer>() as LineRenderer;
+
+            foreach (var chain in chains)
+            {
+                var planet2 = db.getPlanetByID(chain.Oid);
+
+                line.positionCount = line.positionCount+1;
+                line.SetPosition(line.positionCount-1, new Vector3(planet.x, planet.y,-1));
+
+                line.positionCount = line.positionCount + 1;
+                line.SetPosition(line.positionCount-1, new Vector3(planet2.x, planet2.y,-1));
+            }
+            line.sortingLayerName = "Foreground";
+            planetObj.transform.position = new Vector3(planet.x,planet.y,10);
         }
-
     }
-
-
-
-
-
-
-
 }

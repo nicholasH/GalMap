@@ -1560,7 +1560,7 @@ namespace SQLite4Unity3d
 					var r = SQLite3.Close (Handle);
 					if (r != SQLite3.Result.OK) {
 						string msg = SQLite3.GetErrmsg (Handle);
-						throw SQLiteException.New (r, msg);
+						//throw SQLiteException.New (r, msg);
 					}
 				}
 				finally {
